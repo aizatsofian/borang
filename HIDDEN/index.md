@@ -113,5 +113,6 @@
             <button type="submit">Hantar Permohonan & Buat Bayaran</button>
         </form>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
