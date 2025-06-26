@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(GAS_WEB_APP_URL, {
             method: 'POST',
             body: formData,
+            mode: 'no-cors',
+            credentials: 'omit'
         })
         .then(response => response.json())
         .then(data => {

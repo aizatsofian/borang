@@ -1,4 +1,7 @@
-`index.html`
+# Projek Gabungan HTML/CSS/JS
+
+## 📄 index.html
+\\\html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,9 +115,10 @@
     <script src="script.js"></script>
 </body>
 </html>
+\\\
 
-
-`style.css`
+## 🎨 style.css
+\\\css
 /* General Body and Container Styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -326,8 +330,55 @@ button[type="submit"]:active {
         padding: 12px 15px;
     }
 }
+\\\
 
-`success.html`
+## 🧠 script.js
+\\\javascript
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('cidbApplicationForm');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    // TAMPAL URL WEB APP ANDA DI SINI
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz7ABAlZ3BeFQUG6L_aCtwC2VQ3Zxl5v62ZMMFrJFk2SGXRsAdeBsdhTlP6e-FPy0Ii/exec';
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Hentikan penyerahan lalai
+
+        // Tunjukkan status memuat naik pada butang
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Menghantar... Sila tunggu...';
+        
+        const formData = new FormData(form);
+
+        fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Penyerahan berjaya, alihkan ke URL pembayaran
+                alert('Maklumat berjaya dihantar. Anda akan dialihkan ke halaman pembayaran.');
+                window.location.href = data.redirectUrl;
+            } else {
+                // Jika terdapat ralat dari Apps Script
+                throw new Error(data.message || 'Berlaku ralat yang tidak diketahui.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Gagal menghantar permohonan. Sila cuba lagi.\n\nRalat: ' + error.message);
+            // Kembalikan butang kepada keadaan asal
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        });
+    });
+});
+\\\
+
+## ✅ success.html
+\\\html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -426,3 +477,126 @@ button[type="submit"]:active {
     </div>
 </body>
 </html>
+\\\
+
+## GAS
+// Gantikan dengan ID Folder Google Drive anda
+const FOLDER_ID = "1syIm9KNyEAck1RUtcov1ktzPxFYAm1L7"; 
+
+// Maklumat ToyyibPay - Disimpan dalam Script Properties
+const TOYYIBPAY_SECRET_KEY = PropertiesService.getScriptProperties().getProperty('TOYYIBPAY_SECRET_KEY');
+const TOYYIBPAY_CATEGORY_CODE = PropertiesService.getScriptProperties().getProperty('TOYYIBPAY_CATEGORY_CODE');
+const TOYYIBPAY_CREATE_BILL_URL = "https://toyyibpay.com/index.php/api/createBill";
+const TOYYIBPAY_PAYMENT_URL = "https://toyyibpay.com/";
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const folder = DriveApp.getFolderById(FOLDER_ID);
+    const data = e.parameter;
+    const timestamp = new Date();
+    
+    // ================== BAHAGIAN DIPERBAIKI ==================
+    // Fungsi untuk memuat naik fail. Kini ia menerima blob terus dari e.parameter.
+    const uploadFile = (fileBlob, fieldName, applicantIdentifier) => {
+      if (fileBlob) {
+        // Cipta nama fail yang unik untuk elak fail ditimpa
+        const uniqueFileName = `${timestamp.getTime()}_${applicantIdentifier}_${fieldName}_${fileBlob.getName()}`;
+        const file = folder.createFile(fileBlob).setName(uniqueFileName);
+        
+        // Tetapkan kebenaran fail supaya boleh dilihat oleh sesiapa sahaja dengan pautan
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        
+        return file.getUrl();
+      }
+      return "Tiada Fail Dimuat Naik";
+    };
+
+    // Gunakan emel atau nama sebagai pengecam unik dalam nama fail
+    const applicantIdentifier = data.email || `user-${timestamp.getTime()}`;
+
+    // Memanggil fungsi uploadFile dengan data fail dari e.parameter (data)
+    const cidbUrl = uploadFile(data.oldCidbPic, 'CIDB_Lama', applicantIdentifier);
+    const icUrl = uploadFile(data.icPic, 'IC', applicantIdentifier);
+    const certUrl = uploadFile(data.academicCertPic, 'Sijil_Akademik', applicantIdentifier);
+    // ================== AKHIR BAHAGIAN DIPERBAIKI ==================
+
+    // Sediakan data untuk ToyyibPay
+    const pricePerYear = 1000; // Harga dalam sen (cth: RM10.00)
+    const amount = parseInt(data.applicationYears) * pricePerYear;
+
+    const billData = {
+      'billName': 'Permohonan Kad CIDB',
+      'billDescription': `Bayaran untuk permohonan kad CIDB selama ${data.applicationYears} tahun.`,
+      'billPriceSetting': 1,
+      'billPayorInfo': 1,
+      'billAmount': amount,
+      'billReturnUrl': '',
+      'billCallbackUrl': '',
+      'billExternalReferenceNo': `CIDB-${timestamp.getTime()}`,
+      'billTo': data.nextOfKinName,
+      'billEmail': data.email,
+      'billPhone': data.phone,
+      'billSplitPayment': 0,
+      'billSplitPaymentArgs': '',
+      'billPaymentChannel': '0',
+      'billContentEmail': 'Terima kasih atas bayaran anda!',
+      'billChargeToCustomer': 1
+    };
+
+    // Panggil API ToyyibPay untuk cipta bil
+    const options = {
+      'method': 'post',
+      'payload': {
+        'userSecretKey': TOYYIBPAY_SECRET_KEY,
+        'categoryCode': TOYYIBPAY_CATEGORY_CODE,
+        ...billData
+      }
+    };
+    
+    const response = UrlFetchApp.fetch(TOYYIBPAY_CREATE_BILL_URL, options);
+    const result = JSON.parse(response.getContentText());
+    
+    if (result && result.length > 0 && result[0].BillCode) {
+      const billCode = result[0].BillCode;
+      
+      // Simpan data ke Google Sheet
+      const newRow = [
+        timestamp,
+        data.email,
+        data.phone,
+        data.homeAddress,
+        data.companyName,
+        data.companyAddress,
+        data.applicationYears,
+        data.deliveryOption,
+        data.nextOfKinName,
+        data.nextOfKinIC,
+        data.nextOfKinPhone,
+        data.nextOfKinRelationship,
+        cidbUrl,
+        icUrl,
+        certUrl,
+        billCode,
+        "Pending"
+      ];
+      sheet.appendRow(newRow);
+
+      // Hantar respons kembali ke frontend dengan URL pembayaran
+      return ContentService.createTextOutput(JSON.stringify({
+        status: 'success',
+        redirectUrl: TOYYIBPAY_PAYMENT_URL + billCode
+      })).setMimeType(ContentService.MimeType.JSON);
+
+    } else {
+      throw new Error("Gagal mencipta bil ToyyibPay. Respons: " + JSON.stringify(result));
+    }
+
+  } catch (error) {
+    Logger.log(error.toString());
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'error',
+      message: error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
