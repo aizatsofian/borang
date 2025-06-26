@@ -1,38 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('cidbApplicationForm');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    // TAMPAL URL WEB APP ANDA DI SINI
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz7ABAlZ3BeFQUG6L_aCtwC2VQ3Zxl5v62ZMMFrJFk2SGXRsAdeBsdhTlP6e-FPy0Ii/exec';
 
     form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Mencegah penyerahan borang lalai
+        event.preventDefault(); // Hentikan penyerahan lalai
 
-        // Pengesahan Borang Asas (Anda boleh menambah lebih banyak peraturan)
-        let isValid = true;
-        const requiredFields = form.querySelectorAll('[required]');
+        // Tunjukkan status memuat naik pada butang
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Menghantar... Sila tunggu...';
+        
+        const formData = new FormData(form);
 
-        requiredFields.forEach(function(field) {
-            if (!field.value.trim()) {
-                isValid = false;
-                // Anda boleh menambah logik untuk menonjolkan medan yang tidak diisi
-                console.error(`Medan ${field.name} diperlukan.`);
-                alert(`Sila isi semua ruangan yang diperlukan.`);
+        fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Penyerahan berjaya, alihkan ke URL pembayaran
+                alert('Maklumat berjaya dihantar. Anda akan dialihkan ke halaman pembayaran.');
+                window.location.href = data.redirectUrl;
+            } else {
+                // Jika terdapat ralat dari Apps Script
+                throw new Error(data.message || 'Berlaku ralat yang tidak diketahui.');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Gagal menghantar permohonan. Sila cuba lagi.\n\nRalat: ' + error.message);
+            // Kembalikan butang kepada keadaan asal
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
         });
-
-        if (isValid) {
-            // Meniru proses penyerahan (cth., menghantar data ke pelayan)
-            // Dalam aplikasi sebenar, di sini anda akan membuat permintaan fetch/AJAX
-            console.log('Borang sedang diserahkan...');
-
-            const formData = new FormData(form);
-
-            // Log data borang untuk tujuan penyahpepijatan
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-
-            // Selepas "penyerahan" yang berjaya, arahkan ke halaman kejayaan
-            // Dalam senario sebenar, ini akan berada dalam panggilan balik kejayaan permintaan pelayan anda
-            alert('Permohonan berjaya dihantar! Mengarahkan ke halaman pembayaran.');
-            window.location.href = 'success.html';
-        }
     });
 });
