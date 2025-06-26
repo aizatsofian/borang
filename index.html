@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borang Permohonan Kad CIDB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Borang Permohonan Kad CIDB</h2>
+        <form id="cidbApplicationForm" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Maklumat Peribadi & Syarikat</legend>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">No. Telefon:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="homeAddress">Alamat Rumah:</label>
+                    <textarea id="homeAddress" name="homeAddress" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyName">Nama Syarikat:</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyAddress">Alamat Syarikat:</label>
+                    <textarea id="companyAddress" name="companyAddress" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicationYears">Tempoh Permohonan (Tahun):</label>
+                    <select id="applicationYears" name="applicationYears" required>
+                        <option value="">Pilih</option>
+                        <option value="1">1 Tahun</option>
+                        <option value="2">2 Tahun</option>
+                        <option value="3">3 Tahun</option>
+                        <option value="4">4 Tahun</option>
+                        <option value="5">5 Tahun</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pilihan Pengeposan Kad CIDB:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="deliveryHome" name="deliveryOption" value="Alamat Rumah" required>
+                        <label for="deliveryHome">Alamat Rumah</label>
+                        <input type="radio" id="deliveryCompany" name="deliveryOption" value="Alamat Syarikat">
+                        <label for="deliveryCompany">Alamat Syarikat</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Maklumat Waris</legend>
+
+                <div class="form-group">
+                    <label for="nextOfKinName">Nama Waris:</label>
+                    <input type="text" id="nextOfKinName" name="nextOfKinName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nextOfKinIC">No. Kad Pengenalan Waris:</label>
+                    <input type="text" id="nextOfKinIC" name="nextOfKinIC" pattern="[0-9]{12}" placeholder="e.g., 888022235453" required>
+                    <small>Sila masukkan 12 digit tanpa sempang.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="nextOfKinPhone">No. Telefon Waris:</label>
+                    <input type="tel" id="nextOfKinPhone" name="nextOfKinPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nextOfKinRelationship">Hubungan dengan Waris:</label>
+                    <input type="text" id="nextOfKinRelationship" name="nextOfKinRelationship" required>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Muat Naik Dokumen</legend>
+
+                <div class="form-group">
+                    <label for="oldCidbPic">Gambar CIDB Lama:</label>
+                    <input type="file" id="oldCidbPic" name="oldCidbPic" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="icPic">Gambar Kad Pengenalan:</label>
+                    <input type="file" id="icPic" name="icPic" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="academicCertPic">Gambar Sijil Akademik:</label>
+                    <input type="file" id="academicCertPic" name="academicCertPic" accept="image/*" required>
+                </div>
+            </fieldset>
+
+            <button type="submit">Hantar Permohonan & Buat Bayaran</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

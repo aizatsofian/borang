@@ -1,0 +1,211 @@
+/* General Body and Container Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px; /* Max width for larger screens */
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* Form Fieldset and Legend Styling */
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: #fdfdfd;
+}
+
+legend {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #007bff; /* Primary blue color */
+    padding: 0 10px;
+    margin-left: -10px; /* Adjust to align with fieldset border */
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea,
+.form-group select {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding in width */
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #007bff; /* Highlight on focus */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 80px;
+}
+
+/* Radio Button Styling */
+.radio-group {
+    display: flex;
+    gap: 25px; /* Space between radio options */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+    transform: scale(1.1); /* Slightly larger radio buttons */
+    cursor: pointer;
+}
+
+.radio-group label {
+    display: inline-flex; /* Align label with radio button */
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0; /* Remove default bottom margin */
+    font-weight: normal; /* Labels for radio can be lighter */
+    color: #333;
+}
+
+/* File Input Styling */
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px 0; /* Adjust padding for file input */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Small Text for Hints */
+.form-group small {
+    display: block;
+    color: #777;
+    margin-top: 5px;
+    font-size: 0.85em;
+}
+
+/* Submit Button Styling */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #28a745; /* Success green color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 30px;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        margin: 15px; /* Add margin on smaller screens */
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    fieldset {
+        padding: 20px;
+    }
+
+    legend {
+        font-size: 1.2em;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group textarea,
+    .form-group select {
+        width: 100%; /* Full width on smaller screens */
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .form-group label {
+        font-size: 0.9em;
+    }
+
+    button[type="submit"] {
+        font-size: 1em;
+        padding: 12px 15px;
+    }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Berjaya!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #28a745; /* Success green */
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .success-icon {
+            color: #28a745;
+            font-size: 4em; /* Larger icon */
+            margin-bottom: 30px;
+            /* Using a simple checkmark, you might use a library like FontAwesome for better icons */
+        }
+
+        .button-back {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #007bff; /* Primary blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-back:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .button-back:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+                margin: 15px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .success-icon {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">&#10004;</div> <h2>Pembayaran Berjaya!</h2>
+        <p>Terima kasih atas permohonan anda. Pembayaran anda telah disahkan.</p>
+        <p>Maklumat permohonan dan resit akan dihantar ke WhatsApp dan email anda.</p>
+        <a href="/" class="button-back">Kembali ke Laman Utama</a>
+    </div>
+</body>
+</html>
